@@ -1,82 +1,138 @@
 {
-    "macros": [
-        "MBED_CONF_APP_MAIN_STACK_SIZE=10240"
-    ],
-    "config": {
-        "estimated-application-size": {
-            "required": true
-        },
-        "protagonist-download": {
-            "required": true
-        },
-        "protagonist-file": {
-            "required": true
-        },
-        "protagonist-flash": {
-            "required": true
-        },
-        "protagonist-file-to-flash": {
-            "required": true
-        },
-        "network-interface":{
-            "help": "Options are ETHERNET, WIFI_ESP8266, WIFI_ODIN, WIFI_RTW, WIFI_WIZFI310, WIFI_ISM43362",
-            "value": "ETHERNET"
-        },
-        "wifi-ssid": {
-            "help": "WiFi SSID",
-            "value": "\"SSID\""
-        },
-        "wifi-password": {
-            "help": "WiFi Password",
-            "value": "\"Password\""
-        }
+  "config": {
+      "wifi-ssid": {
+          "help": "WiFi SSID",
+          "value": "\"CiklumBiowaveLabs\""
+      },
+      "wifi-password": {
+          "help": "WiFi Password",
+          "value": "\"Biowave_is_the_best\""
+      },
+      "host-addr": {
+        "help": "Default Host address",
+        "value": "\"home.myblossom.com\""
+      },
+      "url": {
+        "help": "Default URL for HTTP GET request",
+        "value": "\"http://home.myblossom.com/api/heartbeat/\""
+      },
+   	  "thread-stack-size": {
+        "value": 4096
+      }  
+  },
+  "target_overrides": {
+    "*": {
+      "target.extra_labels_add": [
+      ],
+      "target.uart_hwfc": 0,
+      "platform.stdio-baud-rate": 115200,
+      "platform.default-serial-baud-rate": 115200,
+      "nordic-ble.max_characteristics": 22,
+      "nordic-ble.uuid_table_max_entries": 16,
+      "mbed-trace.enable": true,
+      "target.heap_size": 8192
     },
-    "target_overrides": {
-        "*": {
-            "target.features_add": ["COMMON_PAL", "NANOSTACK"],
-            "platform.stdio-baud-rate": 115200,
-            "platform.stdio-convert-newlines": true,
-            "storage-selector.storage": "HEAP",
-            "storage-selector.filesystem": "LITTLE",
-            "storage-selector.mount-point": "\"bd\"",
-            "app.estimated-application-size": "0x60000",
-            "app.protagonist-download": "\"alice.h\"",
-            "app.protagonist-file": "\"alice.h\"",
-            "app.protagonist-flash": "\"alice.h\"",
-            "app.protagonist-file-to-flash": "\"alice.h\""
-        },
-        "DISCO_L475VG_IOT01A": {
-            "app.network-interface": "WIFI_ISM43362"
-        },
-        "K64F": {
-            "storage-selector.storage": "SD_CARD"
-        },
-        "NRF52_DK": {
-            "target.extra_labels_remove": [
-                "SOFTDEVICE_S132_FULL",
-                "SOFTDEVICE_COMMON"
-            ],
-            "target.extra_labels_add": [
-                "SOFTDEVICE_NONE"
-            ],
-            "app.network-interface": "WIFI_ESP8266",
-            "app.estimated-application-size": "0x50000"
-        },
-        "NRF52840_DK": {
-            "storage-selector.storage": "SPI_FLASH",
-            "app.network-interface": "WIFI_ESP8266",
-            "app.estimated-application-size": "0x90000"
-        },
-        "RZ_A1H": {
-            "target.macros": [
-                "MBEDTLS_NO_DEFAULT_ENTROPY_SOURCES",
-                "MBEDTLS_TEST_NULL_ENTROPY"
-            ],
-            "storage-selector.storage": "SD_CARD"
-        },
-        "UBLOX_EVK_ODIN_W2": {
-            "target.device_has_remove": ["EMAC"],
-            "storage-selector.storage": "SD_CARD"
-        }
+    "EMBIGGEN": {
+      "target.components_add": ["SPIF"],
+      "winc1500.wifi-miso": "p28",
+      "winc1500.wifi-mosi": "p25",
+      "winc1500.wifi-sclk": "p29",
+      "winc1500.wifi-nss": "p12",
+      "winc1500.wifi-reset": "p14",
+      "winc1500.wifi-wakeup": "p16",
+      "winc1500.wifi-irq": "p15",
+      "winc1500.wifi-chip-enable": "p11",
+      "winc1500.enable_debug": true,
+      "target.macros_add" : ["CONFIG_NFCT_PINS_AS_GPIOS"]
+    },
+    "EMBIGGEN_2": {
+      "winc1500.wifi-miso": "p28",
+      "winc1500.wifi-mosi": "p25",
+      "winc1500.wifi-sclk": "p29",
+      "winc1500.wifi-nss": "p12",
+      "winc1500.wifi-reset": "p14",
+      "winc1500.wifi-wakeup": "p16",
+      "winc1500.wifi-irq": "p15",
+      "winc1500.wifi-chip-enable": "p11",
+      "winc1500.enable_debug": true,
+      "nvstore.max_keys": 64,
+      "nvstore.area_1_address": "0xE0000",
+      "nvstore.area_1_size"   : "0x4000",
+      "nvstore.area_2_address": "0xE4000",
+      "nvstore.area_2_size"   : "0x4000",
+      "target.macros_add" : ["CONFIG_NFCT_PINS_AS_GPIOS"]  
+    },
+    "EMBIGGEN_2_DFU": {
+      "target.components_add": ["SPIF"],
+      "winc1500.wifi-miso": "p28",
+      "winc1500.wifi-mosi": "p25",
+      "winc1500.wifi-sclk": "p29",
+      "winc1500.wifi-nss": "p12",
+      "winc1500.wifi-reset": "p14",
+      "winc1500.wifi-wakeup": "p16",
+      "winc1500.wifi-irq": "p15",
+      "winc1500.wifi-chip-enable": "p11",
+      "winc1500.enable_debug": true,
+      "target.mbed_app_start": "0x22000",
+      "target.mbed_app_size": "0xBE000",
+      "target.bootloader_img": null,
+      "nvstore.max_keys": 64,
+      "nvstore.area_1_address": "0xE0000",
+      "nvstore.area_1_size"   : "0x4000",
+      "nvstore.area_2_address": "0xE4000",
+      "nvstore.area_2_size"   : "0x4000",
+      "target.macros_add" : ["CONFIG_NFCT_PINS_AS_GPIOS"]  
+    },
+    "EMBIGGEN_DFU": { 
+      "target.components_add": ["SPIF"],
+      "winc1500.wifi-miso": "p28",
+      "winc1500.wifi-mosi": "p25",
+      "winc1500.wifi-sclk": "p29",
+      "winc1500.wifi-nss": "p12",
+      "winc1500.wifi-reset": "p14",
+      "winc1500.wifi-wakeup": "p16",
+      "winc1500.wifi-irq": "p15",
+      "winc1500.wifi-chip-enable": "p11",
+      "winc1500.enable_debug": true,
+      "target.mbed_app_start": "0x23000",
+      "target.mbed_app_size": "0x55000",         
+      "target.bootloader_img": null,
+      "target.macros_add" : ["CONFIG_NFCT_PINS_AS_GPIOS"]
+    },      
+      
+    "NRF52_DK": {
+      "target.components_add": ["SPIF"],
+      "winc1500.wifi-miso": "p24",
+      "winc1500.wifi-mosi": "p23",
+      "winc1500.wifi-sclk": "p25",
+      "winc1500.wifi-nss": "p22",
+      "winc1500.wifi-reset": "p16",
+      "winc1500.wifi-wakeup": "p4",
+      "winc1500.wifi-irq": "p18",
+      "winc1500.wifi-chip-enable": "p3",
+      "winc1500.enable_debug": true,
+      "mbed-http.http-buffer-size" : 1024
+    },
+    "NRF52_DK_DFU": { 
+      "target.components_add": ["SPIF"],
+      "winc1500.wifi-miso": "p24",
+      "winc1500.wifi-mosi": "p23",
+      "winc1500.wifi-sclk": "p25",
+      "winc1500.wifi-nss": "p22",
+      "winc1500.wifi-reset": "p16",
+      "winc1500.wifi-wakeup": "p4",
+      "winc1500.wifi-irq": "p18",
+      "winc1500.wifi-chip-enable": "p3",
+      "winc1500.enable_debug": true,
+      "target.mbed_app_start": "0x23000",
+      "target.mbed_app_size": "0x55000",
+      "target.bootloader_img": null
     }
+  },
+  "macros": [
+    "MBED_HEAP_STATS_ENABLED=1",
+    "EMBIGGEN_IOT_PLATFORM=(defined(TARGET_EMBIGGEN) || defined (TARGET_EMBIGGEN_2))",
+    "SV_BUTTON_TEST=0",
+    "NRF_PWR_MGMT_ENABLED=1"
+  ]
 }
