@@ -21,7 +21,7 @@
       },
    	  "thread-stack-size": {
         "value": 8192
-      }  
+      }
   },
   "target_overrides": {
     "*": {
@@ -59,6 +59,8 @@
     "MBED_HEAP_STATS_ENABLED=1",
     "EMBIGGEN_IOT_PLATFORM=(defined(TARGET_EMBIGGEN) || defined (TARGET_EMBIGGEN_2))",
     "SV_BUTTON_TEST=0",
-    "NRF_PWR_MGMT_ENABLED=1"
+    "NRF_PWR_MGMT_ENABLED=1",
+    "MBEDTLS_DEBUG_C",
+    "MBED_CONF_TLS_SOCKET_DEBUG_LEVEL=4"
   ]
 }

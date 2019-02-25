@@ -87,7 +87,7 @@ void download(size_t size)
     for (int tries = 0; tries < MAX_RETRIES; tries++) {
         result = socket->connect("lootbox.s3.dualstack.us-west-2.amazonaws.com", 443);
         printf("!!### Connect to server, res: %d\r\n", result);
-        if (result == 0) {
+        if ((result == NSAPI_ERROR_OK) || (result == NSAPI_ERROR_IS_CONNECTED)) {
             break;
         }
         printf("connection failed. retry %d of %d\r\n", tries, MAX_RETRIES);
