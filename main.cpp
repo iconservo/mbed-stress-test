@@ -27,6 +27,9 @@
 //#include "unity/unity.h"
 //#include "greentea-client/test_env.h"
 
+#include "mbed-trace/mbed_trace.h"
+#define TRACE_GROUP  "main"
+
 #include <string>
 
 #include "SeggerRTT.h"
@@ -66,7 +69,14 @@ void download(size_t size)
     printf("!!### Start of download routine, size: %d\r\n", size);
 
     /* setup TLS socket */
-    TLSSocket* socket = new TLSSocket(interface);
+    TLSSocket* socket = new TLSSocket();
+
+    result = socket->open(interface);
+    if (result != 0) {
+         printf("!!### Socket open error: %d\r\n", result);
+         return;
+    }
+
    // TEST_ASSERT_NOT_NULL_MESSAGE(socket, "failed to instantiate socket");
     printf("!!### Socket is opened\r\n");
 
@@ -196,8 +206,8 @@ static int setup_network(const size_t call_count)
     }
 
    // TEST_ASSERT_EQUAL(NSAPI_ERROR_OK, err);
-    printf("IP address is '%s'\n", interface->get_ip_address());
-    printf("MAC address is '%s'\n", interface->get_mac_address());
+    printf("IP address is '%s'\r\n", interface->get_ip_address());
+    printf("MAC address is '%s'\r\n", interface->get_mac_address());
 
     return 0;
 }
@@ -275,9 +285,33 @@ FileHandle* mbed::mbed_override_console(int fd) {
 }
 #endif  // (OVERRIDE_CONSOLE_STDIO_UART_TX || OVERRIDE_CONSOLE_SEGGER_RTT)
 
+#if 0
+WiFiInterface *WiFiInterface::get_default_instance()
+{
+    static WINC1500Interface &winc = WINC1500Interface::getInstance();
+    return &winc;
+}
+
+NetworkInterface *NetworkInterface::get_default_instance()
+{
+    static WINC1500Interface &winc = WINC1500Interface::getInstance();
+    return &winc;
+}
+#endif
+
+extern "C" void printf_all(const char* format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
+}
 
 int main()
 {
+    mbed_trace_init();       // initialize the trace library
+    tr_debug("Hello world!");  //-> "[DBG ][main]: Hello world!"
+
     printf("\r\n!#\r\n!#\r\----Mbed initialized\r\n");
     wait(1);
     printf("!!### Before harness start!\r\n");
@@ -290,5 +324,6 @@ int main()
 
 //    printf("!!### End of program, res: %s!\r\n", res ? "True" : "False");
     printf("!!### End of program, r!\r\n");
+    for (;;) ;
     return 0;
 }

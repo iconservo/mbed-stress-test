@@ -16,8 +16,11 @@
         "help": "Default URL for HTTP GET request",
         "value": "\"http://home.myblossom.com/api/heartbeat/\""
       },
+      "main-stack-size": {
+        "value": 8192
+      },
    	  "thread-stack-size": {
-        "value": 4096
+        "value": 8192
       }  
   },
   "target_overrides": {
@@ -29,21 +32,13 @@
       "platform.default-serial-baud-rate": 115200,
       "nordic-ble.max_characteristics": 22,
       "nordic-ble.uuid_table_max_entries": 16,
+      "target.features_add": ["COMMON_PAL"],
+      "target.components_remove": ["QSPIF"],
       "mbed-trace.enable": true,
-      "target.heap_size": 8192
-    },
-    "EMBIGGEN": {
-      "target.components_add": ["SPIF"],
-      "winc1500.wifi-miso": "p28",
-      "winc1500.wifi-mosi": "p25",
-      "winc1500.wifi-sclk": "p29",
-      "winc1500.wifi-nss": "p12",
-      "winc1500.wifi-reset": "p14",
-      "winc1500.wifi-wakeup": "p16",
-      "winc1500.wifi-irq": "p15",
-      "winc1500.wifi-chip-enable": "p11",
-      "winc1500.enable_debug": true,
-      "target.macros_add" : ["CONFIG_NFCT_PINS_AS_GPIOS"]
+      "target.heap_size": 8192,
+      "nsapi.default-wifi-security": "WPA_WPA2",
+      "nsapi.default-wifi-ssid": "\"CiklumBiowaveLabs\"",
+      "nsapi.default-wifi-password": "\"Biowave_is_the_best\""      
     },
     "EMBIGGEN_2": {
       "winc1500.wifi-miso": "p28",
@@ -55,79 +50,10 @@
       "winc1500.wifi-irq": "p15",
       "winc1500.wifi-chip-enable": "p11",
       "winc1500.enable_debug": true,
-      "nvstore.max_keys": 64,
-      "nvstore.area_1_address": "0xE0000",
-      "nvstore.area_1_size"   : "0x4000",
-      "nvstore.area_2_address": "0xE4000",
-      "nvstore.area_2_size"   : "0x4000",
-      "target.macros_add" : ["CONFIG_NFCT_PINS_AS_GPIOS"]  
-    },
-    "EMBIGGEN_2_DFU": {
-      "target.components_add": ["SPIF"],
-      "winc1500.wifi-miso": "p28",
-      "winc1500.wifi-mosi": "p25",
-      "winc1500.wifi-sclk": "p29",
-      "winc1500.wifi-nss": "p12",
-      "winc1500.wifi-reset": "p14",
-      "winc1500.wifi-wakeup": "p16",
-      "winc1500.wifi-irq": "p15",
-      "winc1500.wifi-chip-enable": "p11",
-      "winc1500.enable_debug": true,
-      "target.mbed_app_start": "0x22000",
-      "target.mbed_app_size": "0xBE000",
-      "target.bootloader_img": null,
-      "nvstore.max_keys": 64,
-      "nvstore.area_1_address": "0xE0000",
-      "nvstore.area_1_size"   : "0x4000",
-      "nvstore.area_2_address": "0xE4000",
-      "nvstore.area_2_size"   : "0x4000",
-      "target.macros_add" : ["CONFIG_NFCT_PINS_AS_GPIOS"]  
-    },
-    "EMBIGGEN_DFU": { 
-      "target.components_add": ["SPIF"],
-      "winc1500.wifi-miso": "p28",
-      "winc1500.wifi-mosi": "p25",
-      "winc1500.wifi-sclk": "p29",
-      "winc1500.wifi-nss": "p12",
-      "winc1500.wifi-reset": "p14",
-      "winc1500.wifi-wakeup": "p16",
-      "winc1500.wifi-irq": "p15",
-      "winc1500.wifi-chip-enable": "p11",
-      "winc1500.enable_debug": true,
-      "target.mbed_app_start": "0x23000",
-      "target.mbed_app_size": "0x55000",         
-      "target.bootloader_img": null,
-      "target.macros_add" : ["CONFIG_NFCT_PINS_AS_GPIOS"]
-    },      
-      
-    "NRF52_DK": {
-      "target.components_add": ["SPIF"],
-      "winc1500.wifi-miso": "p24",
-      "winc1500.wifi-mosi": "p23",
-      "winc1500.wifi-sclk": "p25",
-      "winc1500.wifi-nss": "p22",
-      "winc1500.wifi-reset": "p16",
-      "winc1500.wifi-wakeup": "p4",
-      "winc1500.wifi-irq": "p18",
-      "winc1500.wifi-chip-enable": "p3",
-      "winc1500.enable_debug": true,
-      "mbed-http.http-buffer-size" : 1024
-    },
-    "NRF52_DK_DFU": { 
-      "target.components_add": ["SPIF"],
-      "winc1500.wifi-miso": "p24",
-      "winc1500.wifi-mosi": "p23",
-      "winc1500.wifi-sclk": "p25",
-      "winc1500.wifi-nss": "p22",
-      "winc1500.wifi-reset": "p16",
-      "winc1500.wifi-wakeup": "p4",
-      "winc1500.wifi-irq": "p18",
-      "winc1500.wifi-chip-enable": "p3",
-      "winc1500.enable_debug": true,
-      "target.mbed_app_start": "0x23000",
-      "target.mbed_app_size": "0x55000",
-      "target.bootloader_img": null
-    }
+      "target.macros_add" : ["CONFIG_NFCT_PINS_AS_GPIOS"], 
+      "target.macros_remove": ["MBEDTLS_CONFIG_HW_SUPPORT"],
+      "target.features_remove": ["CRYPTOCELL310"]       
+    }    
   },
   "macros": [
     "MBED_HEAP_STATS_ENABLED=1",
