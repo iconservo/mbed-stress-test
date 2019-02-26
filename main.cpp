@@ -90,16 +90,16 @@ void download(size_t size)
         if ((result == NSAPI_ERROR_OK) || (result == NSAPI_ERROR_IS_CONNECTED)) {
             break;
         }
-        printf("connection failed. retry %d of %d\r\n", tries, MAX_RETRIES);
+        printf("!!### connection failed. retry %d of %d\r\n", tries, MAX_RETRIES);
     }
    // TEST_ASSERT_EQUAL_INT_MESSAGE(0, result, "failed to connect");
     printf("!!### Socket connection, res: %d\r\n", result);
 
     socket->set_blocking(false);
-    printf("non-blocking mode set\r\n");
+    printf("!!### non-blocking mode set\r\n");
 
     socket->sigio(socket_event);
-    printf("registered callback function\r\n");
+    printf("!!### registered callback function\r\n");
 
     /* setup request */
     /* -1 to remove h from .h in header file name */
@@ -111,7 +111,7 @@ void download(size_t size)
     memcpy(&request[strlen(part1)], filename, strlen(filename) - 1);
     memcpy(&request[strlen(part1) + strlen(filename) - 1], part2, strlen(part2));
 
-    printf("request: %s[end]\r\n", request);
+    printf("!!### request: %s[end]\r\n", request);
 
     /* send request to server */
     result = socket->send(request, request_size);
@@ -172,7 +172,7 @@ void download(size_t size)
 
 //                receive_buffer[result] = '\0';
 //                printf("%s", receive_buffer);
-                printf("received_bytes: %u\r\n", received_bytes);
+                printf("!!### received_bytes: %u\r\n", received_bytes);
             }
         }
         while ((result > 0) && (received_bytes < expected_bytes));
@@ -182,7 +182,11 @@ void download(size_t size)
     delete socket;
     delete[] receive_buffer;
 
-    printf("done\r\n");
+    if  (received_bytes == expected_bytes) {
+        printf("!!### done OK!\r\n");
+    } else {
+        printf("!!### done error: %i!\r\n", result);        
+    }    
 }
 
 static int setup_network(const size_t call_count)
